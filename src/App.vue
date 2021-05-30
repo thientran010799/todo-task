@@ -19,15 +19,33 @@
         </div>
         <div class="tasks">
           <div class="todo-task">
-            <todo-component v-bind:items="tasks"></todo-component>
+            <todo-component></todo-component>
           </div>
           <div class="doing-task">
-            <doing-component v-bind:items="tasks"></doing-component>
+            <doing-component></doing-component>
           </div>
           <div class="done-task">
-            <done-component v-bind:items="tasks"></done-component>
+            <done-component></done-component>
           </div>
         </div>
+      </div>
+      <div class="tinhtoan">
+        <p>chon trang thai</p>
+        <select v-model="statusSelected">
+          <option v-for="(item, index) in taskStatus" :key="index" :value="item.status" >
+            {{ item.status }}
+          </option>
+        </select >
+        <p>select:{{statusSelected}}</p>
+         <p>chon task</p>
+        <select v-model="idSelected">
+          <option v-for="item in tasks" :key="item.id" :value="item.id">
+            {{ item.id }}
+          </option>
+        </select>
+        <p>select:{{idSelected}}</p>
+        <br>
+        <button @click="changeStatus">click me</button>
       </div>
       <footer>
         <div class="footer">
@@ -42,6 +60,8 @@
 import TodoComponent from "./components/TodoComponent.vue";
 import DoingComponent from "./components/DoingComponent.vue";
 import DoneComponent from "./components/DoneComponent.vue";
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "App",
   components: {
@@ -51,28 +71,25 @@ export default {
   },
   data() {
     return {
-       tasks: [
-        {
-          id: "1",
-          title: "Tasks no 1",
-          work: "zzzzzzzzzzzzzzzz",
-          status:"todo"
-        },
-        {
-          id: "2",
-          title: "Tasks no 2",
-          work: "zzzzzzzzzzzzzzzz",
-          status:"doing"
-        },
-        {
-          id: "3",
-          title: "Tasks no 3",
-          work: "zzzzzzzzzzzzzzzz",
-          status:"done"
-        },
-      ],
+      idSelected:"",
+      statusSelected:""
     };
   },
+  computed: {
+    ...mapState(["tasks", "taskStatus"]),
+  },
+  methods : {
+    changeStatus(){
+      let obj = {
+        idSelected : this.idSelected,
+        statusSelected : this.statusSelected }
+
+      this.actchangeStatus(obj)
+    },
+  ...mapActions({
+    'actchangeStatus':'changeStatus'
+  })
+  }
 };
 </script>
 

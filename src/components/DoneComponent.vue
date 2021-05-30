@@ -24,21 +24,22 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "DoneComponent",
   data() {
     return {};
   },
-  props: {
-    items: Array,
-  },
+
   computed: {
     taskStatus() {
-      return this.items.filter(function (t) {
+      return this.tasks.filter(function (t) {
         return t.status == "done";
       });
     },
+    ...mapState(["tasks"]),
   },
+  
 };
 </script>
 
